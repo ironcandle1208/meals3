@@ -1,0 +1,283 @@
+= Meals3
+:toc: left
+:toclevels: 3
+:icons: font
+:source-highlighter: highlight.js
+:experimental:
+
+献立管理・スケジュール・買い物リストを家族やグループで共有できるモバイルアプリケーション
+
+== 概要
+
+Meals3は、献立の保存・スケジュール管理・買い物リストの自動生成を一元管理できるモバイルアプリケーションです。
+グループ機能により、家族や同居人と献立やスケジュールを共有し、効率的な食事計画と買い物をサポートします。
+
+=== 主な機能
+
+* 📝 *献立保存機能* - 献立の名前、材料、調理方法を保存
+* 📅 *スケジュール管理* - 日・週・月単位で献立スケジュールを表示
+* 🛒 *買い物リスト* - 登録した献立から材料を自動で買い物リストに追加
+* 👥 *グループ共有* - 同一グループ内で献立・スケジュール・買い物リストを共有
+* 🏷️ *タグ機能* - 主食・主菜などのタグで献立を分類
+* 👤 *アカウント管理* - メールアドレスでアカウント登録・管理
+
+== 技術スタック
+
+=== フロントエンド
+
+* *React Native* (0.81.5) - クロスプラットフォームモバイル開発
+* *Expo* (~54.0.25) - React Nativeの開発環境
+* *Expo Router* (~6.0.15) - ファイルベースルーティング
+* *React Native Paper* (^5.14.5) - マテリアルデザインUIコンポーネント
+* *React Native Calendars* (^1.1313.0) - カレンダー表示
+
+=== バックエンド・データベース
+
+* *Supabase* (^2.84.0) - BaaS (Backend as a Service)
+** PostgreSQL データベース
+** 認証機能
+** Row Level Security (RLS) によるアクセス制御
+
+=== 状態管理・その他
+
+* *TanStack Query* (^5.90.10) - サーバーデータのキャッシュと同期
+* *AsyncStorage* (^2.2.0) - ローカルストレージ
+* *Jest* (^29.7.0) - テストフレームワーク
+
+== 必要要件
+
+* Node.js (推奨: v18以上)
+* npm または yarn
+* Expo CLI
+* iOS Simulator (macOS) または Android Emulator
+
+== セットアップ
+
+=== 1. リポジトリのクローン
+
+[source,bash]
+----
+git clone <repository-url>
+cd meals3
+----
+
+=== 2. 依存関係のインストール
+
+[source,bash]
+----
+npm install
+----
+
+=== 3. 環境変数の設定
+
+`.env.example` を `.env` にコピーし、Supabaseの認証情報を設定します。
+
+[source,bash]
+----
+cp .env.example .env
+----
+
+`.env` ファイルを編集:
+
+[source,env]
+----
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+----
+
+=== 4. Supabaseのセットアップ
+
+Supabaseプロジェクトを作成し、データベースマイグレーションを実行します。
+
+[source,bash]
+----
+# Supabase CLIのインストール (Homebrewを使用する場合)
+brew install supabase/tap/supabase
+
+# Supabaseにログイン
+supabase login
+
+# ローカル開発環境の起動
+supabase start
+
+# マイグレーションの実行
+supabase db push
+----
+
+NOTE: マイグレーションファイルは `supabase/migrations/` ディレクトリに格納されています。
+
+== 起動方法
+
+=== 開発サーバーの起動
+
+[source,bash]
+----
+npm start
+----
+
+=== プラットフォーム別の起動
+
+[source,bash]
+----
+# iOS
+npm run ios
+
+# Android
+npm run android
+
+# Web
+npm run web
+----
+
+== テスト
+
+=== テストの実行
+
+[source,bash]
+----
+# 全テストを実行
+npm test
+
+# ウォッチモードでテストを実行
+npm run test:watch
+
+# カバレッジレポートを生成
+npm run test:coverage
+----
+
+== プロジェクト構成
+
+[source]
+----
+meals3/
+├── app/                      # アプリケーションのメイン画面
+│   ├── (app)/               # 認証後の画面
+│   │   ├── groups/          # グループ管理画面
+│   │   ├── recipes/         # 献立管理画面
+│   │   ├── schedule/        # スケジュール画面
+│   │   └── shopping-list/   # 買い物リスト画面
+│   ├── (auth)/              # 認証画面
+│   └── _layout.js           # ルートレイアウト
+├── contexts/                # React Context
+│   └── AuthContext.js       # 認証コンテキスト
+├── lib/                     # ユーティリティ・ライブラリ
+│   └── supabase.js          # Supabaseクライアント設定
+├── supabase/                # Supabaseプロジェクト設定
+│   ├── migrations/          # データベースマイグレーション
+│   └── config.toml          # Supabase設定ファイル
+├── __tests__/               # テストファイル
+├── docs/                    # ドキュメント
+│   ├── specs.md            # 機能要件
+│   ├── plans.md            # 開発計画書
+│   ├── diagrams.md         # ER図
+│   ├── STARTUP_GUIDE.md    # 起動ガイド
+│   └── MIGRATION_GUIDE.md  # マイグレーションガイド
+├── assets/                  # 画像・アイコン等のアセット
+├── app.json                 # Expo設定
+├── package.json             # npm依存関係
+└── README.adoc              # このファイル
+----
+
+== データベース設計
+
+主要なテーブル構成:
+
+[cols="1,3", options="header"]
+|===
+|テーブル名
+|説明
+
+|`profiles`
+|ユーザー情報
+
+|`groups`
+|グループ情報
+
+|`group_members`
+|グループとユーザーの紐付け
+
+|`recipes`
+|献立情報
+
+|`ingredients`
+|献立の材料
+
+|`tags`
+|献立のタグ
+
+|`recipe_tags`
+|献立とタグの紐付け
+
+|`schedules`
+|献立スケジュール
+
+|`shopping_items`
+|買い物リスト項目
+|===
+
+詳細なER図は link:docs/diagrams.md[docs/diagrams.md] を参照してください。
+
+== 開発ガイド
+
+=== ディレクトリ構成の規則
+
+* `app/(app)/` - 認証が必要な画面
+* `app/(auth)/` - 認証関連の画面（ログイン、サインアップ等）
+* `contexts/` - グローバルな状態管理
+* `lib/` - 共通ユーティリティ関数
+
+=== コーディング規約
+
+* JavaScriptファイルには日本語でコメントを記述
+* React Hooksを使用した関数コンポーネントで実装
+* TanStack Queryを使用したデータフェッチング
+* React Native Paperのコンポーネントを優先的に使用
+
+== トラブルシューティング
+
+=== Metro Bundlerのエラー
+
+キャッシュをクリアして再起動:
+
+[source,bash]
+----
+npm start -- --clear
+----
+
+=== Supabase接続エラー
+
+1. `.env` ファイルの設定を確認
+2. Supabaseプロジェクトが起動しているか確認
+3. ネットワーク接続を確認
+
+=== テスト失敗
+
+[source,bash]
+----
+# node_modulesを削除して再インストール
+rm -rf node_modules
+npm install
+
+# キャッシュをクリア
+npm test -- --clearCache
+----
+
+== ドキュメント
+
+* link:docs/specs.md[機能要件仕様書]
+* link:docs/plans.md[開発計画書]
+* link:docs/diagrams.md[データベースER図]
+* link:docs/STARTUP_GUIDE.md[起動ガイド]
+* link:docs/MIGRATION_GUIDE.md[マイグレーションガイド]
+
+== ライセンス
+
+Private
+
+== 貢献
+
+このプロジェクトはプライベートプロジェクトです。
+
+== サポート
+
+問題が発生した場合は、Issueを作成してください。
