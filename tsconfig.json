@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    // 基本設定
+    "target": "esnext",
+    "lib": ["esnext"],
+    "jsx": "react-native",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    
+    // 型チェックの設定（緩め）
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    
+    // コード品質
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    
+    // パス設定
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "extends": "expo/tsconfig.base"
+}
+
