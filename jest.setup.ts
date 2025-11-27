@@ -38,25 +38,31 @@ jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
 }));
 
-// Supabase のモック（各テストファイルで個別に設定可能）
-jest.mock('./lib/supabase', () => ({
-  supabase: {
-    auth: {
-      getSession: jest.fn(() => Promise.resolve({ data: { session: null } })),
-      onAuthStateChange: jest.fn(() => ({
-        data: { subscription: { unsubscribe: jest.fn() } },
+// Supabase のモック（単体テストのみ）
+// 統合テストとE2Eテストでは実際のSupabaseクライアントを使用するため、モックをスキップ
+const isIntegrationOrE2ETest = process.env.JEST_TEST_PATH?.includes('integration') || 
+                                process.env.JEST_TEST_PATH?.includes('e2e');
+
+if (!isIntegrationOrE2ETest) {
+  jest.mock('./lib/supabase', () => ({
+    supabase: {
+      auth: {
+        getSession: jest.fn(() => Promise.resolve({ data: { session: null } })),
+        onAuthStateChange: jest.fn(() => ({
+          data: { subscription: { unsubscribe: jest.fn() } },
+        })),
+        signUp: jest.fn(),
+        signInWithPassword: jest.fn(),
+        signOut: jest.fn(),
+      },
+      from: jest.fn(() => ({
+        select: jest.fn().mockReturnThis(),
+        insert: jest.fn().mockReturnThis(),
+        update: jest.fn().mockReturnThis(),
+        delete: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        single: jest.fn(),
       })),
-      signUp: jest.fn(),
-      signInWithPassword: jest.fn(),
-      signOut: jest.fn(),
     },
-    from: jest.fn(() => ({
-      select: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      delete: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn(),
-    })),
-  },
-}));
+  }));
+}

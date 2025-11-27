@@ -61,6 +61,14 @@ export default function Schedule() {
       // @ts-ignore: Supabase join type inference limitation
       const scheduleData = data as ScheduleItem[];
       
+      // 食事の優先順位定義
+      const mealOrder: { [key: string]: number } = {
+        breakfast: 1,
+        lunch: 2,
+        dinner: 3,
+        snack: 4
+      };
+
       scheduleData.forEach(item => {
         const date = item.date;
         if (!newItems[date]) {
@@ -68,6 +76,16 @@ export default function Schedule() {
         }
         newItems[date].push(item);
       });
+
+      // 各日付の中で食事タイプ順にソート
+      Object.keys(newItems).forEach(date => {
+        newItems[date].sort((a, b) => {
+          const orderA = mealOrder[a.meal_type] || 99;
+          const orderB = mealOrder[b.meal_type] || 99;
+          return orderA - orderB;
+        });
+      });
+
       setItems(newItems);
     } catch (error) {
       console.error('Error fetching schedules:', error);

@@ -34,6 +34,8 @@ export default function Login() {
         autoCapitalize="none"
         keyboardType="email-address"
         style={styles.input}
+        testID="login-email-input"
+        accessibilityLabel="login-email-input"
       />
       
       <TextInput
@@ -42,6 +44,8 @@ export default function Login() {
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
+        testID="login-password-input"
+        accessibilityLabel="login-password-input"
       />
 
       <Button 
@@ -49,6 +53,8 @@ export default function Login() {
         onPress={handleLogin} 
         loading={loading} 
         style={styles.button}
+        testID="login-button"
+        accessibilityLabel="login-button"
       >
         ログイン
       </Button>
@@ -56,7 +62,7 @@ export default function Login() {
       <View style={styles.footer}>
         <Text>アカウントを作成していませんか？ </Text>
         <Link href="/signup" asChild>
-          <Button mode="text" compact>サインアップ</Button>
+          <Button mode="text" compact testID="login-signup-link" accessibilityLabel="login-signup-link">サインアップ</Button>
         </Link>
       </View>
     </View>

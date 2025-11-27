@@ -37,6 +37,8 @@ export default function SignUp() {
         autoCapitalize="none"
         keyboardType="email-address"
         style={styles.input}
+        testID="signup-email-input"
+        accessibilityLabel="signup-email-input"
       />
       
       <TextInput
@@ -45,6 +47,8 @@ export default function SignUp() {
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
+        testID="signup-password-input"
+        accessibilityLabel="signup-password-input"
       />
 
       <Button 
@@ -52,6 +56,8 @@ export default function SignUp() {
         onPress={handleSignUp} 
         loading={loading} 
         style={styles.button}
+        testID="signup-button"
+        accessibilityLabel="signup-button"
       >
         アカウント作成
       </Button>
@@ -59,7 +65,7 @@ export default function SignUp() {
       <View style={styles.footer}>
         <Text>既にアカウントを持っている場合は </Text>
         <Link href="/login" asChild>
-          <Button mode="text" compact>ログイン</Button>
+          <Button mode="text" compact testID="signup-login-link" accessibilityLabel="signup-login-link">ログイン</Button>
         </Link>
       </View>
     </View>
