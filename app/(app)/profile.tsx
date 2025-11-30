@@ -41,7 +41,7 @@ export default function Profile() {
       }
     } catch (error) {
       if (error instanceof Error) {
-        Alert.alert('Error', error.message);
+        Alert.alert('エラー', error.message);
       }
     } finally {
       setLoading(false);
@@ -66,10 +66,10 @@ export default function Profile() {
       if (error) {
         throw error;
       }
-      Alert.alert('Success', 'Profile updated successfully!');
+      Alert.alert('成功', 'プロフィールを更新しました！');
     } catch (error) {
       if (error instanceof Error) {
-        Alert.alert('Error', error.message);
+        Alert.alert('エラー', error.message);
       }
     } finally {
       setLoading(false);
@@ -78,7 +78,7 @@ export default function Profile() {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium" style={styles.title}>Profile</Text>
+      <Text variant="headlineMedium" style={styles.title}>プロフィール</Text>
       
       <View style={styles.avatarContainer}>
         {/* アバター表示（現在はプレースホルダー） */}
@@ -86,14 +86,14 @@ export default function Profile() {
       </View>
 
       <TextInput
-        label="Email"
+        label="メールアドレス"
         value={session?.user?.email}
         disabled
         style={styles.input}
       />
 
       <TextInput
-        label="Full Name"
+        label="氏名"
         value={fullName}
         onChangeText={setFullName}
         style={styles.input}
@@ -106,7 +106,7 @@ export default function Profile() {
         disabled={loading}
         style={styles.button}
       >
-        {loading ? 'Loading ...' : 'Update'}
+        {loading ? '読み込み中...' : '更新'}
       </Button>
     </View>
   );

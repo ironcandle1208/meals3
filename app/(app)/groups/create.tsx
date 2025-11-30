@@ -19,7 +19,7 @@ export default function CreateGroup() {
 
   const handleCreateGroup = async () => {
     if (!name.trim()) {
-      setError('Group name is required');
+      setError('グループ名は必須です');
       return;
     }
 

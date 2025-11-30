@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, Image } from 'react-native';
 import { TextInput, Button, Text, HelperText, IconButton } from 'react-native-paper';
 import { useRouter } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '../../../lib/supabase';
 import { useAuth } from '../../../contexts/AuthContext';
 
@@ -24,6 +25,29 @@ export default function CreateRecipe() {
   const [tags, setTags] = useState(''); // Comma separated
   const [ingredients, setIngredients] = useState<IngredientInput[]>([{ name: '', quantity: '', unit: '' }]);
 
+  // 画像選択ハンドラ
+  const handlePickImage = async () => {
+    // 画像ライブラリへのアクセス権限をリクエスト
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    if (permissionResult.granted === false) {
+      setError('画像ライブラリへのアクセス権限が必要です');
+      return;
+    }
+
+    // 画像を選択
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.8,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImageUrl(result.assets[0].uri);
+    }
+  };
+
   // 材料の追加・削除・変更ハンドラ
   const handleAddIngredient = () => {
     setIngredients([...ingredients, { name: '', quantity: '', unit: '' }]);
@@ -43,11 +67,11 @@ export default function CreateRecipe() {
 
   const handleCreateRecipe = async () => {
     if (!name.trim()) {
-      setError('Recipe name is required');
+      setError('レシピ名は必須です');
       return;
     }
     if (!group) {
-      setError('No group selected');
+      setError('グループが選択されていません');
       return;
     }
 
@@ -130,7 +154,7 @@ export default function CreateRecipe() {
       } else if (typeof err === 'object' && err !== null && 'message' in err) {
         setError((err as any).message);
       } else {
-        setError('An unexpected error occurred');
+        setError('予期しないエラーが発生しました');
       }
     } finally {
       setLoading(false);
@@ -139,53 +163,56 @@ export default function CreateRecipe() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text variant="headlineMedium" style={styles.title}>New Recipe</Text>
+      <Text variant="headlineMedium" style={styles.title}>新しいレシピ</Text>
 
       <TextInput
-        label="Recipe Name *"
+        label="レシピ名 *"
         value={name}
         onChangeText={setName}
         mode="outlined"
         style={styles.input}
       />
 
-      <TextInput
-        label="Image URL"
-        value={imageUrl}
-        onChangeText={setImageUrl}
-        mode="outlined"
-        style={styles.input}
-      />
+      <Text variant="titleMedium" style={styles.sectionTitle}>画像</Text>
+      <Button 
+        mode="outlined" 
+        onPress={handlePickImage} 
+        icon="image"
+        style={styles.imageButton}
+      >
+        画像を選択
+      </Button>
+      {imageUrl ? (
+        <View style={styles.imagePreviewContainer}>
+          <Image source={{ uri: imageUrl }} style={styles.imagePreview} />
+          <IconButton
+            icon="close"
+            size={20}
+            onPress={() => setImageUrl('')}
+            style={styles.removeImageButton}
+          />
+        </View>
+      ) : null}
 
-      <TextInput
-        label="Instructions"
-        value={instructions}
-        onChangeText={setInstructions}
-        mode="outlined"
-        multiline
-        numberOfLines={4}
-        style={styles.input}
-      />
-
-      <Text variant="titleMedium" style={styles.sectionTitle}>Ingredients</Text>
+      <Text variant="titleMedium" style={styles.sectionTitle}>材料</Text>
       {ingredients.map((ingredient, index) => (
         <View key={index} style={styles.ingredientRow}>
           <TextInput
-            label="Name"
+            label="材料名"
             value={ingredient.name}
             onChangeText={(text) => handleIngredientChange(text, index, 'name')}
             mode="outlined"
             style={[styles.input, styles.ingredientInput, { flex: 2 }]}
           />
           <TextInput
-            label="Qty"
+            label="数量"
             value={ingredient.quantity}
             onChangeText={(text) => handleIngredientChange(text, index, 'quantity')}
             mode="outlined"
             style={[styles.input, styles.ingredientInput, { flex: 1 }]}
           />
           <TextInput
-            label="Unit"
+            label="単位"
             value={ingredient.unit}
             onChangeText={(text) => handleIngredientChange(text, index, 'unit')}
             mode="outlined"
@@ -199,17 +226,28 @@ export default function CreateRecipe() {
         </View>
       ))}
       <Button mode="outlined" onPress={handleAddIngredient} style={styles.addButton}>
-        Add Ingredient
+        材料を追加
       </Button>
 
-      <Text variant="titleMedium" style={styles.sectionTitle}>Tags</Text>
+      <Text variant="titleMedium" style={styles.sectionTitle}>タグ</Text>
       <TextInput
-        label="Tags (comma separated)"
+        label="タグ（カンマ区切り）"
         value={tags}
         onChangeText={setTags}
         mode="outlined"
-        placeholder="e.g. Dinner, Healthy, Quick"
+        placeholder="例: 夕食, ヘルシー, 簡単"
         style={styles.input}
+      />
+
+      <Text variant="titleMedium" style={styles.sectionTitle}>作り方</Text>
+      <TextInput
+        label="作り方"
+        value={instructions}
+        onChangeText={setInstructions}
+        mode="outlined"
+        multiline
+        numberOfLines={12}
+        style={[styles.input, styles.instructionsInput]}
       />
 
       <HelperText type="error" visible={!!error}>
@@ -223,7 +261,7 @@ export default function CreateRecipe() {
         disabled={loading}
         style={styles.submitButton}
       >
-        Create Recipe
+        レシピを作成
       </Button>
     </ScrollView>
   );
@@ -264,5 +302,26 @@ const styles = StyleSheet.create({
   submitButton: {
     marginTop: 30,
     paddingVertical: 5,
+  },
+  imageButton: {
+    marginBottom: 10,
+  },
+  imagePreviewContainer: {
+    position: 'relative',
+    marginBottom: 10,
+  },
+  imagePreview: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+  },
+  removeImageButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  },
+  instructionsInput: {
+    minHeight: 150,
   },
 });

@@ -93,7 +93,7 @@ export default function RecipeList() {
       {item.image_url && <Card.Cover source={{ uri: item.image_url }} />}
       <Card.Title 
         title={item.name} 
-        subtitle={mode === 'select' ? 'Tap to select' : undefined}
+        subtitle={mode === 'select' ? 'タップして選択' : undefined}
       />
     </Card>
   );
@@ -101,11 +101,11 @@ export default function RecipeList() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text variant="headlineSmall">{group?.name} Recipes</Text>
+        <Text variant="headlineSmall">{group?.name} のレシピ</Text>
       </View>
       
       <Searchbar
-        placeholder="Search recipes"
+        placeholder="レシピ名で検索"
         onChangeText={setSearchQuery}
         value={searchQuery}
         onSubmitEditing={fetchRecipes}
@@ -121,7 +121,7 @@ export default function RecipeList() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.list}
           ListEmptyComponent={
-            <Text style={styles.emptyText}>No recipes found. Add some!</Text>
+            <Text style={styles.emptyText}>レシピがありません。登録してみましょう！</Text>
           }
         />
       )}
@@ -130,7 +130,7 @@ export default function RecipeList() {
         icon="plus"
         style={styles.fab}
         onPress={() => router.push('/recipes/create')}
-        label="New Recipe"
+        label="レシピ登録"
       />
     </View>
   );

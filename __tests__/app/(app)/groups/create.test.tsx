@@ -137,7 +137,7 @@ describe('グループ作成画面', () => {
 
       // エラーメッセージが表示されることを確認
       await waitFor(() => {
-        expect(getByText('Group name is required')).toBeTruthy();
+        expect(getByText('グループ名は必須です')).toBeTruthy();
       });
     });
 

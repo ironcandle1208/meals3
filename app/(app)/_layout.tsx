@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import { IconButton } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons';
 
 export default function AppLayout() {
   const router = useRouter();
@@ -16,20 +16,29 @@ export default function AppLayout() {
       ),
     }}>
       <Tabs.Screen 
-        name="index" 
-        options={{ 
-          title: 'ホーム',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }} 
-      />
-      <Tabs.Screen 
         name="schedule/index" 
         options={{ 
           title: 'スケジュール',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="calendar" color={color} size={size} />
+          ),
+        }} 
+      />
+      <Tabs.Screen 
+        name="recipes/create" 
+        options={{ 
+          title: 'レシピ登録',
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="documents" color={color} size={size} />
+          ),
+        }} 
+      />
+      <Tabs.Screen 
+        name="index" 
+        options={{ 
+          title: 'グループ',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="group" color={color} size={size} />
           ),
         }} 
       />
@@ -67,13 +76,6 @@ export default function AppLayout() {
         name="recipes/index" 
         options={{ 
           title: 'レシピ', 
-          href: null,
-        }} 
-      />
-       <Tabs.Screen 
-        name="recipes/create" 
-        options={{ 
-          title: 'レシピ作成', 
           href: null,
         }} 
       />

@@ -143,7 +143,7 @@ describe('レシピ詳細画面', () => {
 
       // エラーアラートが表示されることを確認
       await waitFor(() => {
-        expect(Alert.alert).toHaveBeenCalledWith('Error', 'Failed to load recipe details');
+        expect(Alert.alert).toHaveBeenCalledWith('エラー', 'レシピ詳細の読み込みに失敗しました');
       });
     });
   });
@@ -198,14 +198,14 @@ describe('レシピ詳細画面', () => {
       });
 
       // 削除ボタンをクリック
-      const deleteButton = getByText('Delete Recipe');
+      const deleteButton = getByText('レシピを削除');
       fireEvent.press(deleteButton);
 
       // 削除確認ダイアログが表示されることを確認
       await waitFor(() => {
         expect(Alert.alert).toHaveBeenCalledWith(
-          'Delete Recipe',
-          'Are you sure you want to delete this recipe?',
+          'レシピを削除',
+          'このレシピを削除してもよろしいですか？',
           expect.any(Array)
         );
       });

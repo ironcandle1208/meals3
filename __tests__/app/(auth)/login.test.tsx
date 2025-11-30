@@ -57,7 +57,7 @@ describe('Login画面', () => {
     it('メールアドレスを入力できる', () => {
       const { getByDisplayValue, getAllByTestId } = render(<Login />);
 
-      const inputs = getAllByTestId('text-input-flat');
+      const inputs = getAllByTestId('text-input-outlined');
       const emailInput = inputs[0]; // 最初のTextInputがEmail
       fireEvent.changeText(emailInput, 'test@example.com');
 
@@ -67,7 +67,7 @@ describe('Login画面', () => {
     it('パスワードを入力できる', () => {
       const { getByDisplayValue, getAllByTestId } = render(<Login />);
 
-      const inputs = getAllByTestId('text-input-flat');
+      const inputs = getAllByTestId('text-input-outlined');
       const passwordInput = inputs[1]; // 2番目のTextInputがPassword
       fireEvent.changeText(passwordInput, 'password123');
 
@@ -82,7 +82,7 @@ describe('Login画面', () => {
       const { getByText, getAllByTestId } = render(<Login />);
 
       // フォームに入力
-      const inputs = getAllByTestId('text-input-flat');
+      const inputs = getAllByTestId('text-input-outlined');
       const emailInput = inputs[0];
       const passwordInput = inputs[1];
       fireEvent.changeText(emailInput, 'test@example.com');
@@ -108,7 +108,7 @@ describe('Login画面', () => {
       const { getByText, getAllByTestId } = render(<Login />);
 
       // フォームに入力
-      const inputs = getAllByTestId('text-input-flat');
+      const inputs = getAllByTestId('text-input-outlined');
       const emailInput = inputs[0];
       const passwordInput = inputs[1];
       fireEvent.changeText(emailInput, 'test@example.com');
@@ -131,7 +131,7 @@ describe('Login画面', () => {
       const { getByText, getAllByTestId } = render(<Login />);
 
       // フォームに入力
-      const inputs = getAllByTestId('text-input-flat');
+      const inputs = getAllByTestId('text-input-outlined');
       const emailInput = inputs[0];
       const passwordInput = inputs[1];
       fireEvent.changeText(emailInput, 'test@example.com');

@@ -133,10 +133,10 @@ export default function ShoppingList() {
       }
 
       await fetchShoppingItems();
-      Alert.alert('Success', 'Shopping list generated from schedule!');
+      Alert.alert('成功', 'スケジュールから買い物リストを生成しました！');
     } catch (error) {
       console.error('Error generating shopping list:', error);
-      Alert.alert('Error', 'Failed to generate shopping list');
+      Alert.alert('エラー', '買い物リストの生成に失敗しました');
     } finally {
       setLoading(false);
     }
@@ -230,13 +230,13 @@ export default function ShoppingList() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text variant="headlineSmall">Shopping List</Text>
+        <Text variant="headlineSmall">買い物リスト</Text>
         <Button 
           mode="outlined" 
           onPress={generateFromSchedule}
           disabled={loading}
         >
-          Generate from Schedule
+          スケジュールから生成
         </Button>
       </View>
 
@@ -250,7 +250,7 @@ export default function ShoppingList() {
           contentContainerStyle={styles.list}
           ListEmptyComponent={
             <Text style={styles.emptyText}>
-              No items. Add manually or generate from schedule.
+              アイテムがありません。手動で追加するか、スケジュールから生成してください。
             </Text>
           }
         />
@@ -260,21 +260,21 @@ export default function ShoppingList() {
         icon="plus"
         style={styles.fab}
         onPress={() => setVisible(true)}
-        label="Add Item"
+        label="アイテム追加"
       />
 
       <Portal>
         <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={styles.modal}>
-          <Text variant="headlineSmall" style={styles.modalTitle}>Add Item</Text>
+          <Text variant="headlineSmall" style={styles.modalTitle}>アイテムを追加</Text>
           <TextInput
-            label="Item Name"
+            label="アイテム名"
             value={newItemName}
             onChangeText={setNewItemName}
             mode="outlined"
             style={styles.input}
           />
           <Button mode="contained" onPress={addManualItem} style={styles.modalButton}>
-            Add
+            追加
           </Button>
         </Modal>
       </Portal>

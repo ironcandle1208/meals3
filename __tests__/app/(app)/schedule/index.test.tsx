@@ -75,7 +75,7 @@ describe('スケジュール画面', () => {
       const { getByText } = render(<Schedule />);
 
       // 基本的なUIが表示されることを確認
-      expect(getByText('Select a date')).toBeTruthy();
+      expect(getByText('日時を選んでください')).toBeTruthy();
     });
   });
 });

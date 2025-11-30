@@ -15,7 +15,7 @@ export default function JoinGroup() {
   // 招待コードでグループに参加
   const handleJoinGroup = async () => {
     if (!code.trim()) {
-      setError('Invitation code is required');
+      setError('招待コードは必須です');
       return;
     }
 
@@ -32,7 +32,7 @@ export default function JoinGroup() {
 
       if (groupError) {
         if (groupError.code === 'PGRST116') {
-          throw new Error('Invalid invitation code');
+          throw new Error('無効な招待コードです');
         }
         throw groupError;
       }
@@ -46,7 +46,7 @@ export default function JoinGroup() {
         .single();
 
       if (existingMember) {
-        setError('You are already a member of this group');
+        setError('既にこのグループのメンバーです');
         return;
       }
 
@@ -63,7 +63,7 @@ export default function JoinGroup() {
       router.replace('/');
     } catch (err: any) {
       console.error('Error joining group:', err);
-      setError(err.message || 'Failed to join group');
+      setError(err.message || 'グループへの参加に失敗しました');
     } finally {
       setLoading(false);
     }
@@ -71,13 +71,13 @@ export default function JoinGroup() {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium" style={styles.title}>Join Group</Text>
+      <Text variant="headlineMedium" style={styles.title}>グループに参加</Text>
       <Text variant="bodyMedium" style={styles.description}>
-        Enter the invitation code shared by a group member
+        グループメンバーから共有された招待コードを入力してください
       </Text>
       
       <TextInput
-        label="Invitation Code"
+        label="招待コード"
         value={code}
         onChangeText={(text) => setCode(text.toUpperCase())}
         mode="outlined"
@@ -97,7 +97,7 @@ export default function JoinGroup() {
         disabled={loading}
         style={styles.button}
       >
-        Join Group
+        グループに参加
       </Button>
     </View>
   );

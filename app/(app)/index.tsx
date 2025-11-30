@@ -56,9 +56,17 @@ export default function Index() {
     router.push('/recipes');
   };
 
+  // レシピ登録ボタン押下時の処理：最初のグループを選択してレシピ登録画面へ遷移
+  const handleCreateRecipe = () => {
+    if (groups.length > 0) {
+      setGroup(groups[0]);
+      router.push('/recipes/create');
+    }
+  };
+
   const renderGroupItem = ({ item }: { item: Group }) => (
     <Card style={styles.card} onPress={() => handleGroupPress(item)}>
-      <Card.Title title={item.name} subtitle={`Created: ${new Date(item.created_at).toLocaleDateString()}`} />
+      <Card.Title title={item.name} subtitle={`作成日時: ${new Date(item.created_at).toLocaleDateString()}`} />
     </Card>
   );
 
@@ -67,6 +75,7 @@ export default function Index() {
       <View style={styles.header}>
         <Text variant="headlineMedium">グループ一覧</Text>
         <View style={styles.headerButtons}>
+          <Button mode="text" onPress={handleCreateRecipe} disabled={groups.length === 0}>レシピ登録</Button>
           <Button mode="text" onPress={() => router.push('/groups/join')}>グループ参加</Button>
           <Button mode="text" onPress={signOut}>サインアウト</Button>
         </View>

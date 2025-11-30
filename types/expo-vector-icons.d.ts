@@ -13,4 +13,5 @@ declare module '@expo/vector-icons' {
   export const FontAwesome: ComponentType<IconProps>;
   export const Feather: ComponentType<IconProps>;
   export const MaterialIcons: ComponentType<IconProps>;
+  export const Entypo: ComponentType<IconProps>;
 }

@@ -1,11 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 import { Text, FAB, ActivityIndicator, Card, Portal, Modal, Button, RadioButton } from 'react-native-paper';
-import { Calendar, DateData } from 'react-native-calendars';
+import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useAuth } from '../../../contexts/AuthContext';
 import { supabase } from '../../../lib/supabase';
 import { Tables } from '../../../types/database.types';
+
+// カレンダーの日本語設定
+LocaleConfig.locales['jp'] = {
+  monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+  monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+  dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+  dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+  today: '今日'
+};
+LocaleConfig.defaultLocale = 'jp';
 
 type ScheduleItem = Tables<'schedules'> & {
   recipes: {
@@ -109,7 +119,7 @@ export default function Schedule() {
 
   const showModal = () => {
     if (!selectedDate) {
-      Alert.alert('Please select a date first');
+      Alert.alert('日付を選択してください');
       return;
     }
     setVisible(true);
@@ -140,7 +150,7 @@ export default function Schedule() {
       
       <View style={styles.list}>
         <Text variant="titleMedium" style={styles.dateTitle}>
-          {selectedDate ? `Meals for ${selectedDate}` : 'Select a date'}
+          {selectedDate ? `${selectedDate}の献立` : '日時を選んでください'}
         </Text>
         
         {loading ? (
@@ -158,7 +168,7 @@ export default function Schedule() {
         )}
         
         {selectedDate && (!items[selectedDate] || items[selectedDate].length === 0) && (
-          <Text style={styles.emptyText}>No meals scheduled.</Text>
+          <Text style={styles.emptyText}>献立が登録されていません</Text>
         )}
       </View>
 
@@ -166,20 +176,20 @@ export default function Schedule() {
         icon="plus"
         style={styles.fab}
         onPress={showModal}
-        label="Add Meal"
+        label="献立を登録"
       />
 
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modal}>
-          <Text variant="headlineSmall" style={styles.modalTitle}>Select Meal Type</Text>
+          <Text variant="headlineSmall" style={styles.modalTitle}>選択する献立の種類</Text>
           <RadioButton.Group onValueChange={value => setMealType(value)} value={mealType}>
-            <RadioButton.Item label="Breakfast" value="breakfast" />
-            <RadioButton.Item label="Lunch" value="lunch" />
-            <RadioButton.Item label="Dinner" value="dinner" />
-            <RadioButton.Item label="Snack" value="snack" />
+            <RadioButton.Item label="朝食" value="breakfast" />
+            <RadioButton.Item label="昼食" value="lunch" />
+            <RadioButton.Item label="夕食" value="dinner" />
+            <RadioButton.Item label="間食" value="snack" />
           </RadioButton.Group>
           <Button mode="contained" onPress={handleNavigateToRecipes} style={styles.modalButton}>
-            Select Recipe
+            献立を選択
           </Button>
         </Modal>
       </Portal>

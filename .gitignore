@@ -40,8 +40,5 @@ yarn-error.*
 /ios
 /android
 
-# walkthrough files
-.walkthrough/
-
 
 

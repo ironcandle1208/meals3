@@ -55,7 +55,7 @@ export default function RecipeDetail() {
 
     } catch (error) {
       console.error('Error fetching recipe details:', error);
-      Alert.alert('Error', 'Failed to load recipe details');
+      Alert.alert('エラー', 'レシピ詳細の読み込みに失敗しました');
     } finally {
       setLoading(false);
     }
@@ -63,12 +63,12 @@ export default function RecipeDetail() {
 
   const handleDelete = async () => {
     Alert.alert(
-      'Delete Recipe',
-      'Are you sure you want to delete this recipe?',
+      'レシピを削除',
+      'このレシピを削除してもよろしいですか？',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: 'キャンセル', style: 'cancel' },
         {
-          text: 'Delete',
+          text: '削除',
           style: 'destructive',
           onPress: async () => {
             try {
@@ -80,7 +80,7 @@ export default function RecipeDetail() {
               router.back();
             } catch (error) {
               console.error('Error deleting recipe:', error);
-              Alert.alert('Error', 'Failed to delete recipe');
+              Alert.alert('エラー', 'レシピの削除に失敗しました');
             }
           },
         },
@@ -95,7 +95,7 @@ export default function RecipeDetail() {
   if (!recipe) {
     return (
       <View style={styles.container}>
-        <Text>Recipe not found</Text>
+        <Text>レシピが見つかりません</Text>
       </View>
     );
   }
@@ -117,7 +117,7 @@ export default function RecipeDetail() {
 
         <Divider style={styles.divider} />
 
-        <Text variant="titleLarge" style={styles.sectionTitle}>Ingredients</Text>
+        <Text variant="titleLarge" style={styles.sectionTitle}>材料</Text>
         {ingredients.map((ingredient, index) => (
           <View key={index} style={styles.ingredientRow}>
             <Text variant="bodyLarge" style={styles.ingredientName}>• {ingredient.name}</Text>
@@ -129,7 +129,7 @@ export default function RecipeDetail() {
 
         <Divider style={styles.divider} />
 
-        <Text variant="titleLarge" style={styles.sectionTitle}>Instructions</Text>
+        <Text variant="titleLarge" style={styles.sectionTitle}>作り方</Text>
         <Text variant="bodyLarge" style={styles.instructions}>{recipe.instructions}</Text>
 
         <Button 
@@ -137,7 +137,7 @@ export default function RecipeDetail() {
           onPress={() => router.push(`/recipes/edit/${id}`)}
           style={styles.editButton}
         >
-          Edit Recipe
+          レシピを編集
         </Button>
 
         <Button 
@@ -146,7 +146,7 @@ export default function RecipeDetail() {
           onPress={handleDelete}
           style={styles.deleteButton}
         >
-          Delete Recipe
+          レシピを削除
         </Button>
       </View>
     </ScrollView>

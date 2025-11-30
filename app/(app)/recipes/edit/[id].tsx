@@ -80,7 +80,7 @@ export default function EditRecipe() {
 
     } catch (err) {
       console.error('Error fetching recipe:', err);
-      Alert.alert('Error', 'Failed to load recipe');
+      Alert.alert('エラー', 'レシピの読み込みに失敗しました');
       router.back();
     } finally {
       setLoading(false);
@@ -108,11 +108,11 @@ export default function EditRecipe() {
   // レシピの更新処理
   const handleUpdateRecipe = async () => {
     if (!name.trim()) {
-      setError('Recipe name is required');
+      setError('レシピ名は必須です');
       return;
     }
     if (!group) {
-      setError('No group selected');
+      setError('グループが選択されていません');
       return;
     }
 
@@ -196,7 +196,7 @@ export default function EditRecipe() {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unexpected error occurred');
+        setError('予期しないエラーが発生しました');
       }
     } finally {
       setSaving(false);
@@ -213,10 +213,10 @@ export default function EditRecipe() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text variant="headlineMedium" style={styles.title}>Edit Recipe</Text>
+      <Text variant="headlineMedium" style={styles.title}>レシピを編集</Text>
 
       <TextInput
-        label="Recipe Name *"
+        label="レシピ名 *"
         value={name}
         onChangeText={setName}
         mode="outlined"
@@ -224,7 +224,7 @@ export default function EditRecipe() {
       />
 
       <TextInput
-        label="Image URL"
+        label="画像URL"
         value={imageUrl}
         onChangeText={setImageUrl}
         mode="outlined"
@@ -232,7 +232,7 @@ export default function EditRecipe() {
       />
 
       <TextInput
-        label="Instructions"
+        label="作り方"
         value={instructions}
         onChangeText={setInstructions}
         mode="outlined"
@@ -241,25 +241,25 @@ export default function EditRecipe() {
         style={styles.input}
       />
 
-      <Text variant="titleMedium" style={styles.sectionTitle}>Ingredients</Text>
+      <Text variant="titleMedium" style={styles.sectionTitle}>材料</Text>
       {ingredients.map((ingredient, index) => (
         <View key={index} style={styles.ingredientRow}>
           <TextInput
-            label="Name"
+            label="材料名"
             value={ingredient.name}
             onChangeText={(text) => handleIngredientChange(text, index, 'name')}
             mode="outlined"
             style={[styles.input, styles.ingredientInput, { flex: 2 }]}
           />
           <TextInput
-            label="Qty"
+            label="数量"
             value={ingredient.quantity}
             onChangeText={(text) => handleIngredientChange(text, index, 'quantity')}
             mode="outlined"
             style={[styles.input, styles.ingredientInput, { flex: 1 }]}
           />
           <TextInput
-            label="Unit"
+            label="単位"
             value={ingredient.unit}
             onChangeText={(text) => handleIngredientChange(text, index, 'unit')}
             mode="outlined"
@@ -273,16 +273,16 @@ export default function EditRecipe() {
         </View>
       ))}
       <Button mode="outlined" onPress={handleAddIngredient} style={styles.addButton}>
-        Add Ingredient
+        材料を追加
       </Button>
 
-      <Text variant="titleMedium" style={styles.sectionTitle}>Tags</Text>
+      <Text variant="titleMedium" style={styles.sectionTitle}>タグ</Text>
       <TextInput
-        label="Tags (comma separated)"
+        label="タグ（カンマ区切り）"
         value={tags}
         onChangeText={setTags}
         mode="outlined"
-        placeholder="e.g. Dinner, Healthy, Quick"
+        placeholder="例: 夕食, ヘルシー, 簡単"
         style={styles.input}
       />
 
@@ -297,7 +297,7 @@ export default function EditRecipe() {
         disabled={saving}
         style={styles.submitButton}
       >
-        Update Recipe
+        レシピを更新
       </Button>
     </ScrollView>
   );

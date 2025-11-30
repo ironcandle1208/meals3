@@ -62,8 +62,8 @@ describe('レシピ作成画面', () => {
       expect(getByText('Tags')).toBeTruthy();
 
       // ボタンの確認
-      expect(getByText('Add Ingredient')).toBeTruthy();
-      expect(getByText('Create Recipe')).toBeTruthy();
+      expect(getByText('材料を追加')).toBeTruthy();
+      expect(getByText('レシピを作成')).toBeTruthy();
     });
   });
 
@@ -86,7 +86,7 @@ describe('レシピ作成画面', () => {
       const initialCount = inputs.length;
 
       // 材料を追加
-      const addButton = getByText('Add Ingredient');
+      const addButton = getByText('材料を追加');
       fireEvent.press(addButton);
 
       // 材料フィールドが増えることを確認
@@ -146,7 +146,7 @@ describe('レシピ作成画面', () => {
       fireEvent.changeText(inputs[2], '材料を炒めて煮込む'); // Instructions
 
       // レシピ作成ボタンをクリック
-      const createButton = getByText('Create Recipe');
+      const createButton = getByText('レシピを作成');
       fireEvent.press(createButton);
 
       // 前の画面に戻ることを確認
@@ -159,12 +159,12 @@ describe('レシピ作成画面', () => {
       const { getByText } = render(<CreateRecipe />);
 
       // レシピ作成ボタンをクリック（レシピ名は空）
-      const createButton = getByText('Create Recipe');
+      const createButton = getByText('レシピを作成');
       fireEvent.press(createButton);
 
       // エラーメッセージが表示されることを確認
       await waitFor(() => {
-        expect(getByText('Recipe name is required')).toBeTruthy();
+        expect(getByText('レシピ名は必須です')).toBeTruthy();
       });
     });
 
@@ -182,12 +182,12 @@ describe('レシピ作成画面', () => {
       fireEvent.changeText(inputs[0], 'カレーライス');
 
       // レシピ作成ボタンをクリック
-      const createButton = getByText('Create Recipe');
+      const createButton = getByText('レシピを作成');
       fireEvent.press(createButton);
 
       // エラーメッセージが表示されることを確認
       await waitFor(() => {
-        expect(getByText('No group selected')).toBeTruthy();
+        expect(getByText('グループが選択されていません')).toBeTruthy();
       });
     });
 
@@ -211,7 +211,7 @@ describe('レシピ作成画面', () => {
       fireEvent.changeText(inputs[0], 'カレーライス');
 
       // レシピ作成ボタンをクリック
-      const createButton = getByText('Create Recipe');
+      const createButton = getByText('レシピを作成');
       fireEvent.press(createButton);
 
       // エラーメッセージが表示されることを確認

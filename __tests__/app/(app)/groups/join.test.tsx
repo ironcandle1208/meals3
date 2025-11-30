@@ -46,7 +46,7 @@ describe('グループ参加画面', () => {
       const { getAllByText } = render(<JoinGroup />);
 
       // タイトルとボタンの確認（複数存在するためgetAllByTextを使用）
-      const joinGroupTexts = getAllByText('Join Group');
+      const joinGroupTexts = getAllByText('グループに参加');
       expect(joinGroupTexts.length).toBeGreaterThan(0);
     });
   });
@@ -119,7 +119,7 @@ describe('グループ参加画面', () => {
       fireEvent.changeText(codeInput, 'ABC12345');
 
       // グループ参加ボタンをクリック
-      const joinButtons = getAllByText('Join Group');
+      const joinButtons = getAllByText('グループに参加');
       const joinButton = joinButtons[joinButtons.length - 1]; // 最後の要素がボタン
       fireEvent.press(joinButton);
 
@@ -133,13 +133,13 @@ describe('グループ参加画面', () => {
       const { getAllByText, getByText } = render(<JoinGroup />);
 
       // グループ参加ボタンをクリック（招待コードは空）
-      const joinButtons = getAllByText('Join Group');
+      const joinButtons = getAllByText('グループに参加');
       const joinButton = joinButtons[joinButtons.length - 1];
       fireEvent.press(joinButton);
 
       // エラーメッセージが表示されることを確認
       await waitFor(() => {
-        expect(getByText('Invitation code is required')).toBeTruthy();
+        expect(getByText('招待コードは必須です')).toBeTruthy();
       });
     });
 
@@ -162,13 +162,13 @@ describe('グループ参加画面', () => {
       fireEvent.changeText(codeInput, 'INVALID1');
 
       // グループ参加ボタンをクリック
-      const joinButtons = getAllByText('Join Group');
+      const joinButtons = getAllByText('グループに参加');
       const joinButton = joinButtons[joinButtons.length - 1];
       fireEvent.press(joinButton);
 
       // エラーメッセージが表示されることを確認
       await waitFor(() => {
-        expect(getByText('Invalid invitation code')).toBeTruthy();
+        expect(getByText('無効な招待コードです')).toBeTruthy();
       });
     });
 
@@ -220,13 +220,13 @@ describe('グループ参加画面', () => {
       fireEvent.changeText(codeInput, 'ABC12345');
 
       // グループ参加ボタンをクリック
-      const joinButtons = getAllByText('Join Group');
+      const joinButtons = getAllByText('グループに参加');
       const joinButton = joinButtons[joinButtons.length - 1];
       fireEvent.press(joinButton);
 
       // エラーメッセージが表示されることを確認
       await waitFor(() => {
-        expect(getByText('You are already a member of this group')).toBeTruthy();
+        expect(getByText('既にこのグループのメンバーです')).toBeTruthy();
       });
     });
   });

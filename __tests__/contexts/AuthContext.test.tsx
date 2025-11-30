@@ -246,11 +246,11 @@ describe('AuthContext', () => {
         expect(result.current.loading).toBe(false);
       });
 
-      const mockGroup = { id: 'group-123', name: 'Test Group', created_at: '2023-01-01', created_by: 'user-123' };
+      const mockGroup = { id: 'group-123', name: 'Test Group', created_at: '2023-01-01', created_by: 'user-123', invitation_code: 'INV123' };
 
       // グループを設定
       act(() => {
-        result.current.setGroup({ ...mockGroup, invitation_code: 'INV123' });
+        result.current.setGroup(mockGroup);
       });
 
       expect(result.current.group).toEqual(mockGroup);
@@ -282,9 +282,9 @@ describe('AuthContext', () => {
       });
 
       // グループを設定
-      const mockGroup = { id: 'group-123', name: 'Test Group', created_at: '2023-01-01', created_by: 'user-123' };
+      const mockGroup = { id: 'group-123', name: 'Test Group', created_at: '2023-01-01', created_by: 'user-123', invitation_code: 'INV123' };
       act(() => {
-        result.current.setGroup({ ...mockGroup, invitation_code: 'INV123' });
+        result.current.setGroup(mockGroup);
       });
 
       expect(result.current.group).toEqual(mockGroup);
